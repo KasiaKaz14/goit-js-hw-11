@@ -9,6 +9,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 const submit = document.querySelector('.search-form input');
 const startBtn = document.querySelector('.search-form button');
 let pageCounter = 1;
+const perPage = 40;
 
 const API_KEY = '38253107-b25581e8f8d05da09cf98b2cc';
 const API_PATH = 'https://pixabay.com/api/';
@@ -18,21 +19,21 @@ loadMoreBtn.style.visibility = 'hidden';
 
 async function fetchImages(value) {
   try {
-    let response = await axios(`${API_PATH}`, {
+    let photos = await axios(`${API_PATH}`, {
       params: {
         key: API_KEY,
         q: value,
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: 'true',
-        per_page: 40,
+        per_page: perPage,
         page: pageCounter,
       },
     });
 
     const totalHits = response.data.totalHits;
-    const pages = Math.ceil(totalHits / per_page);
-    if (response.data.hits.length === 0) {
+    const pages = Math.ceil(totalHits / perPage);
+    if (photos.data.hits.length === 0) {
       loadMoreBtn.style.visibility = 'hidden';
       return Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -42,17 +43,17 @@ async function fetchImages(value) {
     if (pageCounter === 1) {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       loadMoreBtn.style.visibility = 'visible';
-      images(response.data.hits);
+      images(photos.data.hits);
     }
 
     if (pageCounter > 1) {
       loadMoreBtn.style.visibility = 'visible';
-      images(response.data.hits);
+      images(photos.data.hits);
     }
 
     if (pages === pageCounter) {
       loadMoreBtn.style.visibility = 'hidden';
-      return Notiflix.Notify.failure(
+      Notiflix.Notify.failure(
         `We're sorry, but you've reached the end of search results.`
       );
       return;
@@ -76,22 +77,22 @@ function request(e) {
   return;
 }
 
-function images(response) {
-  let galleryEL = response.map(resp => {
-    return `<a href = '${resp.largeImageURL}' class = "gallery__link">
-        <img src = "${resp.webformatURL}" alt = "${resp.tags}" loading = "lazy"/>
+function images(photos) {
+  let galleryEL = photos.map(photo => {
+    return `<a href = '${photo.largeImageURL}' class = "gallery__link">
+        <img src = "${photo.webformatURL}" alt = "${photo.tags}" loading = "lazy"/>
         <div class = "info">
         <p class = "info-item">
-        <b>Likes: ${resp.likes}</b>
+        <b>Likes: ${photo.likes}</b>
         </p>
         <p class = "info-item">
-        <b>Views: ${resp.views}</b>
+        <b>Views: ${photo.views}</b>
         </p>
         <p class = "info-item">
-        <b>Comments: ${resp.comments}</b>
+        <b>Comments: ${photo.comments}</b>
         </p>
         <p class = "info-item">
-        <b>Downloads: ${resp.downloads}</b>
+        <b>Downloads: ${photo.downloads}</b>
         </p>
         </div>
         </a>`;
