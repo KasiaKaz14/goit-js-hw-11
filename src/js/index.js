@@ -40,9 +40,9 @@ async function fetchImages(value) {
     }
 
     if (pageCounter === 1) {
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       loadMoreBtn.style.visibility = 'visible';
       images(response.data.hits);
-      return Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
 
     if (pageCounter > 1) {
