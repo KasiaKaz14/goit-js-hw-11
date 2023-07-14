@@ -5,34 +5,17 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-}
-
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-}
-
-.logo {
-  font-size: 24px;
-  margin: 0;
-}
-
-main {
-  padding: 20px;
-}
-
-.search-bar {
-  text-align: center;
-  margin-bottom: 20px;
+  background-image: linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0)),
+    url('https://cdn.pixabay.com/photo/2016/08/21/12/52/lake-1609595_1280.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(245, 242, 232);
 }
 
 .search-form {
   display: inline-block;
   margin-left: 40%;
-  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 input[type='text'] {
@@ -50,6 +33,13 @@ button.load-more {
   color: #fff;
   border: none;
   cursor: pointer;
+  margin-top: 35px;
+  margin-bottom: 15px;
+}
+
+button.load-more {
+  margin-left: 50%;
+  background-color: blue;
 }
 
 button[type='submit']:hover,
@@ -58,28 +48,43 @@ button.load-more:hover {
 }
 
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 20px;
-}
-
-.photo-card {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-  text-align: center;
-}
-
-.photo-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
 }
 
 .info {
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgb(172, 18, 18);
+  padding-left: 20px;
 }
 
 .info-item {
-  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gallery__link {
+  width: 400px;
+  height: 400px;
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+  text-decoration: none;
+  border-radius: 10px;
+
+  box-shadow: 2px 2px 2px 2px #555;
+}
+
+.gallery__link img {
+  object-fit: cover;
+  width: 400px;
+  height: 320px;
+  border-radius: 10px;
 }

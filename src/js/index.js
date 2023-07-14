@@ -12,14 +12,14 @@ let pageCounter = 1;
 const perPage = 40;
 
 const API_KEY = '38253107-b25581e8f8d05da09cf98b2cc';
-const API_PATH = 'https://pixabay.com/api/';
+const API_PATH = 'https://pixabay.com/api/?$';
 
 startBtn.disabled = true;
 loadMoreBtn.style.visibility = 'hidden';
 
 async function fetchImages(value) {
   try {
-    let photos = await axios(`${API_PATH}`, {
+    let response = await axios(`${API_PATH}`, {
       params: {
         key: API_KEY,
         q: value,
@@ -33,7 +33,7 @@ async function fetchImages(value) {
 
     const totalHits = response.data.totalHits;
     const pages = Math.ceil(totalHits / perPage);
-    if (photos.data.hits.length === 0) {
+    if (response.data.hits.length === 0) {
       loadMoreBtn.style.visibility = 'hidden';
       return Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -43,12 +43,12 @@ async function fetchImages(value) {
     if (pageCounter === 1) {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       loadMoreBtn.style.visibility = 'visible';
-      images(photos.data.hits);
+      images(response.data.hits);
     }
 
     if (pageCounter > 1) {
       loadMoreBtn.style.visibility = 'visible';
-      images(photos.data.hits);
+      images(response.data.hits);
     }
 
     if (pages === pageCounter) {
